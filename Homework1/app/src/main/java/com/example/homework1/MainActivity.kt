@@ -36,25 +36,26 @@ class MainActivity : AppCompatActivity() {
         btn = findViewById(R.id.Submit)
         output = findViewById(R.id.output_window)
 
-        val numElements = listOf(height, weight, age)
+        val numElements = listOf(height, weight)
 
 
         btn?.setOnClickListener {
             name?.setHintTextColor(getColor(R.color.hint))
-            for (i in 0..2){
+            for (i in 0..1){
                 numElements[i]?.setTextColor(getColor(R.color.text))
                 numElements[i]?.setHintTextColor(getColor(R.color.hint))
             }
+            weight?.setTextColor(getColor(R.color.text))
+            weight?.setHintTextColor(getColor(R.color.hint))
 
-            val numElementTexts = listOf(height?.text.toString(), weight?.text.toString(),
-                age?.text.toString())
+            val numElementTexts = listOf(height?.text.toString(), weight?.text.toString())
 
             if(name?.text.toString()==""){
                 error = true
                 name?.setHintTextColor(getColor(R.color.red))
             }
 
-            for (i in 0..2) {
+            for (i in 0..1) {
                 if (numElementTexts[i] == "") {
                     error = true
 
@@ -69,6 +70,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            if (age?.text.toString()==""){
+                error = true
+                age?.setHintTextColor(getColor(R.color.red))
+            } else if (!value_check(age?.text.toString().toDouble(), 0, 150)){
+                error = true
+                age?.setTextColor(getColor(R.color.red))
+            }
+
             if (error) {
                 output?.setTextColor(getColor(R.color.red))
                 output?.text = "Данные введены некорректно."
@@ -77,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             else {
                 output?.setTextColor(getColor(R.color.purple_700))
                 val value: Double = numElementTexts[0].toDouble() + numElementTexts[1].toDouble() +
-                        numElementTexts[2].toDouble() + name?.text.toString()[0].code
+                        age?.text.toString().toDouble() + name?.text.toString()[0].code
                 output?.text = "Ответ: $value"
             }
 
